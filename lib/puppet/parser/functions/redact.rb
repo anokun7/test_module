@@ -4,7 +4,11 @@ module Puppet::Parser::Functions
 
     node_certname = args[0]
     fact_name = args[1]
-    fact_value = "<REDACTED>"
+    if args[2].nil?
+      fact_value = "<REDACTED>"
+    else
+      fact_value = args[2]
+    end
 
     uri = URI.parse("http://localhost:8080")
     params = "{\"command\":\"replace facts\",\"version\":3,\"payload\":{\"name\":\"#{node_certname}\",\"environment\":\"DOES NOT MATTER\",\"values\":{\"#{fact_name}\":\"#{fact_value}\"}}}"
@@ -20,3 +24,4 @@ module Puppet::Parser::Functions
     end
   end
 end
+
